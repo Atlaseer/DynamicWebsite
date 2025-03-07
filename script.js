@@ -1,1 +1,1 @@
-document.body
+const postContainer = document.getElementById
