@@ -12,5 +12,19 @@ const API_COMMENTS = "https://dummyjson.com/comments";
 let usersData = {};
 
 async function fetchUsers() {
-    const res = await(API_USERS)
+    const res = await fetch(API_USERS)
+    const data = await res.json();
+    usersData = data.users.reduce((acc, user) => {
+        acc[user.id] = user;
+        return acc;
+    }, {})
+}
+
+async function fetchPosts(){
+    const res = await fetch(API_POSTS)
+    const data = await res.json();
+
+    for (let post of data.posts){
+        await displayPost(post);
+    }
 }
