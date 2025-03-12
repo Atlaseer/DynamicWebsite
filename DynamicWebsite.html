@@ -5,13 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 </head>
 <body>
     <nav class="menu">
         <ul class="menu-items">
 
-        <li> <a class="button" href="DynamicWebsite.html">Home</a>
+        <li> <a id="active-menu" class="button" href="DynamicWebsite.html">Home</a>
         </li>
         <li>
             <a class="button" href="DynamicPosts.html">Posts</a>
@@ -23,26 +23,15 @@
     </nav>
     <main>
         <section class="section">
-            <h2>Posts</h2>
-            <div class="article-frame">
-                <article>
-                    <h3>Article title</h3>
-                    <p>Article words</p>
-                </article>
-            </div>
+            <h2>Welcome to Dynamics!</h2>
+            <p>Dynamics is a meta inspired social media platform, 
+                with as little moderation as the real deal!
+            </p>
         </section>
         <aside class="sidebar">
             <h2>Related content</h2>
-            <p>Info goes here</p>
+            <p>Trending, tags and info</p>
         </aside>
     </main>
-    <div id="user-modal" class="modal">
-        <div class="modal content">
-            <span class="close">&times;</span>
-            <h2 id="user-name"></h2>
-            <p>Email: <span id="user-email"></span></p>
-            <p>Address: <span id="user-address"></span></p>
-        </div>
-    </div>
 </body>
 </html>
