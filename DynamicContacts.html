@@ -10,34 +10,44 @@
 <body>
     <nav class="menu">
         <ul class="menu-items">
-
-        <li> <a class="button" href="DynamicWebsite.html">Home</a>
-        </li>
-        <li>
-            <a class="button" href="DynamicPosts.html">Posts</a>
-        </li>
-        <li>
-            <a id="active-menu" class="button" href="DynamicContacts.html">Contacts</a>
-        </li>
-    </ul>
+            <li><a class="button" href="DynamicWebsite.html">Home</a></li>
+            <li><a class="button" href="DynamicPosts.html">Posts</a></li>
+            <li><a id="active-menu" class="button" href="DynamicContacts.html">Contacts</a></li>
+        </ul>
     </nav>
+
     <main>
-        <section class="section">
-            <h2>Posts</h2>
-            <div id="post-container" class="article-frame"></div>
+        <section class="section contact-section">
+            <h2>Contact Us</h2>
+            <form id="contactForm">
+                <div class="form-group">
+                    <label for="fullName">Full Name:</label>
+                    <input type="text" id="fullName" name="fullName">
+                    <p class="error-message" id="nameError"></p>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email">
+                    <p class="error-message" id="emailError"></p>
+                </div>
+
+                <div class="form-group checkbox-group">
+                    <label>
+                        <input type="checkbox" id="confirm" name="confirm">
+                        Confirm to send
+                    </label>
+                    <p class="error-message" id="confirmError"></p>
+                </div>
+
+                <button type="submit" id="submitButton">Send</button>
+            </form>
         </section>
+
         <aside class="sidebar">
             <h2>Related content</h2>
-            <p>Trending, tags and info</p>
+            <p>Remember! Forgetting your login credentials makes it difficult to log in!</p>
         </aside>
     </main>
-    <div id="user-modal" class="modal">
-        <div class="modal content">
-            <span class="close">&times;</span>
-            <h2 id="user-name"></h2>
-            <p>Email: <span id="user-email"></span></p>
-            <p>Address: <span id="user-address"></span></p>
-        </div>
-    </div>
 </body>
 </html>

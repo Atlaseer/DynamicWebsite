@@ -99,6 +99,11 @@ li{
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+input, textarea, button {
+    margin: 4px 0;
+    padding: 8px;
+}
+
 .user-link{
     color: blue;
     cursor: pointer;
@@ -124,4 +129,9 @@ li{
     top: 5px;
     right: 10px;
     cursor: pointer;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.9em;
 }
