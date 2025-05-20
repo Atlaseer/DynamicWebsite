@@ -1,3 +1,27 @@
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+/*Uniforms all labels*/
+label {
+  width: 150px;
+  margin-bottom: 4px;
+}
+
+input[type="text"],
+input[type="email"] {
+  width: 300px;
+}
+
+.checkbox-group {
+  flex-direction: row;
+  align-items: center;
+}
+
 body{
     background: white;
     font-family: Arial, sans-serif;

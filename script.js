@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // --- POSTS, USERS & COMMENTS LOGIC ---
+    //Constant declarations
     const postContainer = document.getElementById("post-container");
     const userModal     = document.getElementById("user-modal");
     const userName      = document.getElementById("user-name");
@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let usersData = {};
 
+    //Fetches users from the API and stores them in 
     async function fetchUsers() {
         try {
             const res  = await fetch(API_USERS);
@@ -23,6 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
         } catch (e) { console.error(e); }
     }
 
+    //Fetches comments from API, based on post ID
     async function fetchComments(postId) {
         try {
             const res  = await fetch(`${API_COMMENTS}/post/${postId}`);
@@ -34,6 +36,15 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    const closeModalBtn = document.querySelector(".close");
+
+    if (closeModalBtn && userModal) {
+        closeModalBtn.addEventListener("click", () => {
+            userModal.style.display = "none";
+        });
+    }
+
+    //This manages the display function of the posts
     async function displayPost(post) {
         const postEl       = document.createElement("div");
         postEl.classList.add("post");
@@ -72,22 +83,37 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    let skip = 0;
+    const limit = 10;
+    let isLoading = false;
+
+    //Fetches the posts from the API
     async function fetchPosts() {
+        if (isLoading) return;
+        isLoading = true;
         try {
-            const res  = await fetch(API_POSTS);
+            const res = await fetch(`https://dummyjson.com/posts?limit=${limit}&skip=${skip}`);
             const data = await res.json();
-            for (let p of data.posts) {
-                await displayPost(p);
+            for (let post of data.posts) {
+                await displayPost(post);
             }
+            skip += limit;
         } catch (e) {
             console.error(e);
+        } finally {
+            isLoading = false;
         }
     }
 
     async function init() {
         await fetchUsers();
         await fetchPosts();
-    }
+
+            window.addEventListener("scroll", () => {
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
+            fetchPosts();
+        }
+    })}
     init();
 
     //This is the form validation
@@ -101,7 +127,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const emailError = document.getElementById("emailError");
         const confirmError = document.getElementById("confirmError");
 
-        // Validation function (can reuse)
+        //Validation function
         function validateName() {
             if (!fullName.value.trim() || /\d/.test(fullName.value)) {
                 nameError.innerText = "Please enter a valid name (no numbers).";
@@ -114,9 +140,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
         //Validates email input
         function validateEmail() {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email.value)) {
-                emailError.innerText = "Please enter a valid email address.";
+            const value = email.value;
+            if (!value.includes("@") || !value.includes(".")) {
+                emailError.innerText = "Email must include '@' and '.'.";
                 return false;
             } else {
                 emailError.innerText = "";
@@ -124,6 +150,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
 
+        //Validates the checkbox
         function validateConfirm() {
             if (!confirmCheckbox.checked) {
                 confirmError.innerText = "You must confirm to send.";
