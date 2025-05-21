@@ -1,21 +1,22 @@
 document.addEventListener("DOMContentLoaded", function () {
-    //Constant declarations
+    //Get constants by elementId, constant.addEventListener to use
     const postContainer = document.getElementById("post-container");
-    const userModal     = document.getElementById("user-modal");
-    const userName      = document.getElementById("user-name");
-    const userMail      = document.getElementById("user-email");
-    const userAddress   = document.getElementById("user-address");
-
-    const API_POSTS    = "https://dummyjson.com/posts";
-    const API_USERS    = "https://dummyjson.com/users";
+    const userModal = document.getElementById("user-modal");
+    const userName = document.getElementById("user-name");
+    const userMail = document.getElementById("user-email");
+    const userAddress = document.getElementById("user-address");
+    const activeMenu = document.getElementById("active-menu");
+    activeMenu.style.display = "none";
+    const API_POSTS = "https://dummyjson.com/posts";
+    const API_USERS = "https://dummyjson.com/users";
     const API_COMMENTS = "https://dummyjson.com/comments";
 
     let usersData = {};
 
-    //Fetches users from the API and stores them in 
+    //Fetches users from the API and stores them
     async function fetchUsers() {
         try {
-            const res  = await fetch(API_USERS);
+            const res = await fetch(API_USERS);
             const data = await res.json();
             usersData = data.users.reduce((acc, u) => {
                 acc[u.id] = u;
@@ -36,8 +37,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    //Closes the modal on x press
     const closeModalBtn = document.querySelector(".close");
-
     if (closeModalBtn && userModal) {
         closeModalBtn.addEventListener("click", () => {
             userModal.style.display = "none";
