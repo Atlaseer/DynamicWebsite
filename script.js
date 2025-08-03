@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     //Get constants by elementId, constant.addEventListener to use
+    //Constant declarations
     const postContainer = document.getElementById("post-container");
     const userModal = document.getElementById("user-modal");
     const userName = document.getElementById("user-name");
@@ -12,6 +13,26 @@ document.addEventListener("DOMContentLoaded", function () {
     const API_COMMENTS = "https://dummyjson.com/comments";
 
     let usersData = {};
+    let welcomeMessage = document.getElementById("welcomeMessage")
+    var greetings = [];
+
+        greetings.add("Welcome user")
+        greetings.add("Hello there")
+        greetings.add("Hello person")
+        greetings.add("Hi there")
+
+        welcomeMessage.addEventListener("welcomeMessage", ()  =>{
+            welcomeMessage = randomGreeting(greetings)
+        })
+
+        //postEl.querySelector(".user-link").addEventListener("click", e => {
+        //closeModalBtn.addEventListener("click", () => {
+
+    async function randomGreeting(max){
+
+        return Math.floor(Math.random()*max);
+    }
+
 
     //Fetches users from the API and stores them
     async function fetchUsers() {
@@ -56,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
             ? "<p>No comments available</p>"
             : comments.map(c => `<p>${c.body}</p>`).join("");
 
-        const user      = usersData[post.userId] || { username: "Unknown" };
+        const user = usersData[post.userId] || { username: "Unknown" };
         const reactions = post.reactions?.likes ?? post.reactions ?? "No reactions";
 
         postEl.innerHTML = `
