@@ -7,30 +7,30 @@ document.addEventListener("DOMContentLoaded", function () {
     const userMail = document.getElementById("user-email");
     const userAddress = document.getElementById("user-address");
     const activeMenu = document.getElementById("active-menu");
-    activeMenu.style.display = "none";
+
+    //activeMenu.style.display = "none"; //This hides the active menu
+
     const API_POSTS = "https://dummyjson.com/posts";
     const API_USERS = "https://dummyjson.com/users";
     const API_COMMENTS = "https://dummyjson.com/comments";
 
+    //These are for the random greeting
+    const welcomeMessage = document.getElementById("welcomeMessage");
+
     let usersData = {};
-    let welcomeMessage = document.getElementById("welcomeMessage")
-    var greetings = [];
+    var greetings = ["Welcome User", "Hello there", "Hello person", "Hi there"];
 
-        greetings.add("Welcome user")
-        greetings.add("Hello there")
-        greetings.add("Hello person")
-        greetings.add("Hi there")
+    //homeBtn.addEventListener("click", () => {
+    //    welcomeMessage.textContent = randomGreeting();
+    //})
 
-        welcomeMessage.addEventListener("welcomeMessage", ()  =>{
-            welcomeMessage = randomGreeting(greetings)
-        })
+    function randomGreeting(){
+        const index = Math.floor(Math.random()* greetings.length)
+        return greetings[index];
+    }
 
-        //postEl.querySelector(".user-link").addEventListener("click", e => {
-        //closeModalBtn.addEventListener("click", () => {
-
-    async function randomGreeting(max){
-
-        return Math.floor(Math.random()*max);
+    if (welcomeMessage) {
+        welcomeMessage.textContent = randomGreeting();
     }
 
 
