@@ -85,9 +85,18 @@ li{
     text-decoration: none;
 }
 
+.button-container{
+    margin-top: 10px;
+}
+
+.active{
+    background-color: lightblue;
+}
+
 .button:hover{
     background-color: lightblue;
 }
+    
 
 .content{
     width: 65%;

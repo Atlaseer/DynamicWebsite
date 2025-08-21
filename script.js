@@ -10,6 +10,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     //activeMenu.style.display = "none"; //This hides the active menu
 
+
+    const currentPath = window.location.pathname;
+    const links = document.querySelectorAll('nav a')
+
     const API_POSTS = "https://dummyjson.com/posts";
     const API_USERS = "https://dummyjson.com/users";
     const API_COMMENTS = "https://dummyjson.com/comments";
@@ -31,6 +35,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (welcomeMessage) {
         welcomeMessage.textContent = randomGreeting();
+    }
+
+    links.forEach(link =>{
+        const linkPath = new URL(link.href).pathname;
+        if (linkPath === currentPath) {
+            link.classList.add('active')
+        }
+    })
+
+    function showComments(e){
+        const id = e.target.dataset.postid;
+        const commentBox = document.querySelector(`.comments[data-postid="${id}"]`)
+        if(commentBox){
+            commentBox.hidden = !commentBox.hidden;
+            e.target.innerText = commentBox.hidden ? "Show Comments" : "Hide Comments"
+        }
+
     }
 
 
@@ -86,7 +107,11 @@ document.addEventListener("DOMContentLoaded", function () {
             <p>Tags: ${post.tags.join(", ")}</p>
             <p>Reactions: ${reactions}</p>
             <p>By: <span class="user-link" data-userid="${post.userId}">${user.username}</span></p>
-            <div class="comments">
+            <div class="button-container">
+            <button data-postid="${post.id}">Show Comments</button>
+                </div>
+
+            <div class="comments" data-postid="${post.id}" hidden>
                 <h4>Number of comments: ${commentsNumber}</h4>
                 ${commentsHTML}
             </div>
@@ -103,6 +128,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 : "Address not available";
             userModal.style.display = "block";
         });
+            const buttons = document.querySelectorAll('button[data-postid]')
+            buttons.forEach(button => button.addEventListener('click', showComments))
+
     }
 
     let skip = 0;
@@ -149,6 +177,9 @@ document.addEventListener("DOMContentLoaded", function () {
         const emailError = document.getElementById("emailError");
         const confirmError = document.getElementById("confirmError");
 
+        const nameCounter = document.getElementById("nameCounter");
+        const emailCounter = document.getElementById("emailCounter");
+
         //Validation function
         function validateName() {
             if (!fullName.value.trim() || /\d/.test(fullName.value)) {
@@ -172,6 +203,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
 
+
         //Validates the checkbox
         function validateConfirm() {
             if (!confirmCheckbox.checked) {
@@ -182,6 +214,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 return true;
             }
         }
+
+        fullName.addEventListener("input", ()=>{
+        nameCounter.innerText = `${namecounterer.value.length} / ${nameCounterer.maxLength}`
+        })
 
         //This makes the form validate events live
         fullName.addEventListener("input", validateName);
