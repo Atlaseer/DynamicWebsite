@@ -22,6 +22,28 @@ document.addEventListener("DOMContentLoaded", function () {
     const welcomeMessage = document.getElementById("welcomeMessage");
 
     const h2 = document.querySelectorAll("h2")
+    const toTop = document.getElementById("toTop")
+
+
+
+    window.addEventListener("scroll", ()=>{
+            if(window.scrollY>=200){
+        toTop.style.display ="block"
+    } else{
+        toTop.style.display="none"
+    }
+    })
+
+    toTop.addEventListener("click", ()  =>{
+                    window.scrollTo({
+                        top:0,
+                        behavior:"smooth"                        
+                    })
+    })
+
+ 
+
+
 
     h2.forEach(h2=>{
         h2.style.color ="blue"
@@ -33,6 +55,8 @@ document.addEventListener("DOMContentLoaded", function () {
     //homeBtn.addEventListener("click", () => {
     //    welcomeMessage.textContent = randomGreeting();
     //})
+
+
 
     function randomGreeting(){
         const index = Math.floor(Math.random()* greetings.length)
@@ -93,7 +117,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    //Closes the modal when pressing outside the box
+    //Closes the modal when pressing outside the box (doesn´t work)
     window.addEventListener("click", (e)=>{
         if(userModal.style.display === "block" && !e.target.closest("modal-content")){
             userModal.style.display="none";

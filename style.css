@@ -85,6 +85,20 @@ li{
     text-decoration: none;
 }
 
+.button{
+    background-color: teal;
+    color: black;
+    width: 100px;
+    height: 25px;
+    padding: 0.5rem;
+    font-size: 1.5rem;
+    transition: 0.3s;
+    border: 1px solid black;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
+
 .button-container{
     margin-top: 10px;
 }
@@ -159,6 +173,12 @@ input, textarea, button {
 .modal-content{
     position: relative;
     width: 400px;
+}
+
+#toTop{
+    position: fixed;
+    align-items: right;
+    bottom: 0px;
 }
 
 .close{
