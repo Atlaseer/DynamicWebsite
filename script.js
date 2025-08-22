@@ -21,6 +21,12 @@ document.addEventListener("DOMContentLoaded", function () {
     //These are for the random greeting
     const welcomeMessage = document.getElementById("welcomeMessage");
 
+    const h2 = document.querySelectorAll("h2")
+
+    h2.forEach(h2=>{
+        h2.style.color ="blue"
+    })
+
     let usersData = {};
     var greetings = ["Welcome User", "Hello there", "Hello person", "Hi there"];
 
@@ -87,6 +93,13 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    //Closes the modal when pressing outside the box
+    window.addEventListener("click", (e)=>{
+        if(userModal.style.display === "block" && !e.target.closest("modal-content")){
+            userModal.style.display="none";
+        }
+    })
+
     //This manages the display function of the posts
     async function displayPost(post) {
         const postEl       = document.createElement("div");
@@ -128,32 +141,58 @@ document.addEventListener("DOMContentLoaded", function () {
                 : "Address not available";
             userModal.style.display = "block";
         });
-            const buttons = document.querySelectorAll('button[data-postid]')
-            buttons.forEach(button => button.addEventListener('click', showComments))
-
+        postEl.querySelector('button[data-postid]').addEventListener('click', showComments);
     }
 
     let skip = 0;
     const limit = 10;
     let isLoading = false;
+    let morePosts = true;
 
     //Fetches the posts from the API
     async function fetchPosts() {
-        if (isLoading) return;
+        if (isLoading || !morePosts) return;
         isLoading = true;
-        try {
-            const res = await fetch(`https://dummyjson.com/posts?limit=${limit}&skip=${skip}`);
-            const data = await res.json();
-            for (let post of data.posts) {
-                await displayPost(post);
-            }
-            skip += limit;
-        } catch (e) {
-            console.error(e);
-        } finally {
-            isLoading = false;
+
+        const loadingEl = document.getElementById("loading");
+        const errorEl = document.getElementById("errorMessage");
+
+        if(loadingEl){
+            loadingEl.style.display = "block";
+            loadingEl.innerText = "Loading..."
         }
+
+        if(errorEl) errorEl.innerText = "";
+      
+
+         try {
+    const res = await fetch(`https://dummyjson.com/posts?limit=${limit}&skip=${skip}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+
+    if (!data.posts || data.posts.length === 0) {
+      morePosts = false;
+      if (loadingEl) {
+        loadingEl.style.display = "block";
+        loadingEl.innerText = "No more posts available.";
+      }
+      return; // finally will still run
     }
+
+    for (const post of data.posts) {
+      await displayPost(post);
+    }
+    skip += limit;
+
+  } catch (e) {
+    console.error(e);
+    if (errorEl) errorEl.innerText = "Error loading posts. Please try again later.";
+  } finally {
+
+    if (loadingEl && morePosts) loadingEl.style.display = "none";
+    isLoading = false;
+  }
+}
 
     async function init() {
         await fetchUsers();
@@ -215,14 +254,20 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
 
-        fullName.addEventListener("input", ()=>{
-        nameCounter.innerText = `${namecounterer.value.length} / ${nameCounterer.maxLength}`
-        })
-
         //This makes the form validate events live
         fullName.addEventListener("input", validateName);
         email.addEventListener("input", validateEmail);
         confirmCheckbox.addEventListener("change", validateConfirm);
+
+        fullName.addEventListener("input", ()=>{
+        nameCounter.innerText = `${fullName.value.length} / ${fullName.maxLength}`
+        })
+
+        email.addEventListener("input", () => {
+        emailCounter.innerText = `${email.value.length} / ${email.maxLength}`;
+        });
+
+
 
         //Submits form
         form.addEventListener("submit", function (e) {
@@ -239,6 +284,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 nameError.innerText = "";
                 emailError.innerText = "";
                 confirmError.innerText = "";
+
+                nameCounter.innerText = `0 / ${fullName.maxLength}`;
+                emailCounter.innerText = `0 / ${email.maxLength}`;
             }
         });
     }
